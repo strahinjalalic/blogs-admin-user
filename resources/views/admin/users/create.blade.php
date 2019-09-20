@@ -21,8 +21,8 @@
                         {!! Form::select('role_id', [1 => 'Administrator', 2 => 'Author', 3 =>'Subscriber'], null, ['placeholder'=>'Choose role', 'class'=>'form-control']); !!}
             </div>
             <div class="form-group">
-                    {!! Form::label('file', 'File: ') !!}
-                    {!! Form::file('file', null, ['class'=>'form-control']) !!}
+                    {!! Form::label('photo_id', 'File: ') !!}
+                    {!! Form::file('photo_id', null, ['class'=>'form-control']) !!}
                 </div>
             <div class="form-group">
                     {!! Form::label('status', 'Status: ') !!}
