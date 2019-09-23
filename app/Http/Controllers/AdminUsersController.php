@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserEditRequest;
 
 class AdminUsersController extends Controller
 {
@@ -20,6 +21,7 @@ class AdminUsersController extends Controller
     {
         $users = User::all();
         return view('admin.users.index', compact('users'));
+        
     }
 
     /**
@@ -75,7 +77,8 @@ class AdminUsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -85,9 +88,28 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserEditRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        // $photo = Photo::findOrFail($user->photo_id);
+        $input = $request->all();
+
+        $file = $request->file('photo_id');
+        if(!empty($file)) {
+            unset($user->photo_id);
+            // unlink("/images/" . $photo);
+            $name = time() . $file->getClientOriginalName();
+            $file->move('images', $name);
+
+            $photo1 = Photo::create(['file'=>$name]);
+            $input['photo_id'] = $photo1->id;
+        }
+
+        $input['password'] = bcrypt($request->password);
+        $user->update($input);
+
+        return redirect("/admin/users");
+
     }
 
     /**
