@@ -24,10 +24,10 @@ class PostRequest extends Request
     public function rules()
     {
         return [
-            // 'title'=>'required',
-            // 'body'=>'required',
-            // 'photo_id'=>'required',
-            // 'category_id'=>'required'
+            'title'=>'required',
+            'body'=>'required',
+            'photo_id'=>'required',
+            'category_id'=>'required'
         ];
     }
 }

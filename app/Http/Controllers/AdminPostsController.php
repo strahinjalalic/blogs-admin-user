@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Category;
 use App\Post;
 use App\Photo;
 
@@ -30,7 +32,8 @@ class AdminPostsController extends Controller
      */
     public function create()
     {
-        return view("admin.posts.create");
+        $categories = Category::lists('name', 'id')->all(); //da u selectu ne moramo da pisemo sve id-eve i njihove vrednosti
+        return view("admin.posts.create", compact('categories'));
     }
 
     /**
