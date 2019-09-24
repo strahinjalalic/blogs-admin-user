@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserEditRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminUsersController extends Controller
 {
@@ -17,9 +19,14 @@ class AdminUsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+            
+
+    public function index(Request $request)
     {
         $users = User::all();
+        $authUser = Auth::user()->name;
+        session(['authUser'=>$authUser]);
+
         return view('admin.users.index', compact('users'));
         
     }
@@ -120,6 +127,12 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        unlink(public_path() . $user->photo->file);//brisanje slike iz direktorijuma
+        $user->delete();
+        //$photo = Photo::findOrFail($user->photo_id)->delete(); -> brisanje slike iz baze, koristi se kada se zna da se nece ponavljati slike
+        Session::flash('deleted_user', 'User has been deleted');
+
+        return redirect('/admin/users');
     }
 }

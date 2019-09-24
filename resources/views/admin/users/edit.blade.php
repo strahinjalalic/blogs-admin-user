@@ -39,10 +39,20 @@
                     {!! Form::select('status', [1 => 'Active', 0 => 'Not Active'], null, ['class'=>'form-control']); !!}
             </div>
             <div class="form-group">
-                {!! Form::submit('Edit User', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Edit User', ['class'=>'btn btn-primary col-sm-6']) !!}
             </div>
-        {!! Form::close() !!}    
+        {!! Form::close() !!}   
+        
+        {!! Form::open(['method'=>'DELETE', 'action'=>['AdminUsersController@destroy', $user->id]]) !!}
+        <div class="form-group">
+            {!! Form::submit('Delete user', ['class'=>'btn btn-danger col-sm-6']) !!}
+        </div>
+    {!! Form::close() !!}
+
     </div>
+
+  
+
 </div> 
 
 @include('includes.form_errors')
